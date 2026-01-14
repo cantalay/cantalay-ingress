@@ -46,6 +46,13 @@ resource "null_resource" "get_kubeconfig" {
 output "kubeconfig_file" {
   value = "${path.module}/kubeconfig.yaml"
 }
+terraform {
+  backend "kubernetes" {
+    namespace        = "terraform-states" # State'in saklanacağı yer
+    secret_suffix    = "ingress-state"      # Secret adının sonuna eklenir
+    config_path   = "/home/cant/.kube/config"
+  }
+}
 # Bu çıktı, oluşturulan kubeconfig dosyasının
 # yolunu gösterir.
 # export KUBECONFIG=$(terraform output -raw kubeconfig_file)
